@@ -1,0 +1,128 @@
+.prompt-modal input,
+.prompt-modal textarea,
+.prompt-modal select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+}
+
+.prompt-modal select {
+    width: auto;
+    min-width: 200px;
+    margin-bottom: 12px;
+}
+
+.prompt-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.prompt-modal button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: var(--interactive-normal);
+    color: var(--text-normal);
+}
+
+.prompt-modal button.mod-cta {
+    background-color: var(--interactive-accent);
+    color: var(--text-on-accent);
+}
+
+.prompt-modal button:hover {
+    background-color: var(--interactive-hover);
+}
+
+.prompt-modal button.mod-cta:hover {
+    background-color: var(--interactive-accent-hover);
+}
+
+.setting-item-description {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.setting-item-description ul {
+    margin-left: 20px;
+    list-style-type: disc;
+}
+
+.setting-item-description li {
+    margin: 4px 0;
+}
+
+.prompt-modal .template-separator {
+    margin: 12px 0;
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+/* 模板搜索相关样式 */
+.template-list-container {
+    position: absolute;
+    z-index: 1000;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    width: 90%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.template-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.template-list-item {
+    padding: 8px 12px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.template-list-item:last-child {
+    border-bottom: none;
+}
+
+.template-list-item:hover {
+    background-color: var(--background-modifier-hover);
+}
+
+.template-title {
+    font-weight: bold;
+    margin-bottom: 4px;
+    color: var(--text-normal);
+}
+
+.template-preview {
+    font-size: 0.9em;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 搜索输入框样式 */
+.prompt-modal input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background-color: var(--background-primary);
+    color: var(--text-normal);
+    margin-bottom: 8px;
+}
+
+.prompt-modal input[type="text"]:focus {
+    outline: none;
+    border-color: var(--interactive-accent);
+} 

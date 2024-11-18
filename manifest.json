@@ -1,0 +1,9 @@
+{
+  "id": "obsidian-openrouter",
+  "name": "yuhanbo-ai",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "选中内容，调用OpenRouter、Deepseek和Gemini生成内容",
+  "author": "余汉波",
+  "isDesktopOnly": false
+} 

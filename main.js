@@ -216,27 +216,32 @@ class PromptModal extends obsidian.Modal {
             const templateListContainer = contentEl.createDiv({
                 cls: 'template-list-container'
             });
-            templateListContainer.style.display = 'none'; // 初始隐藏
+            templateListContainer.style.display = 'none';
             
             // 创建模板列表
             const templateList = templateListContainer.createEl('ul', {
                 cls: 'template-list'
             });
 
+            // 添加当前选中项的索引
+            let selectedIndex = -1;
+            let matchedTemplates = [];
+
             // 处理搜索输入
             searchInput.addEventListener('input', () => {
                 const searchTerm = searchInput.value.toLowerCase();
                 templateList.empty();
+                selectedIndex = -1; // 重置选中索引
                 
                 if (searchTerm) {
-                    const matchedTemplates = this.templates.filter(template => 
+                    matchedTemplates = this.templates.filter(template => 
                         template.name.toLowerCase().includes(searchTerm) ||
                         template.content.toLowerCase().includes(searchTerm)
                     );
 
                     if (matchedTemplates.length > 0) {
                         templateListContainer.style.display = 'block';
-                        matchedTemplates.forEach(template => {
+                        matchedTemplates.forEach((template, index) => {
                             const li = templateList.createEl('li', {
                                 cls: 'template-list-item'
                             });
@@ -246,17 +251,13 @@ class PromptModal extends obsidian.Modal {
                                 cls: 'template-title'
                             });
                             
-                            // 显示模板预览
                             const preview = li.createEl('div', {
                                 text: template.content.slice(0, 100) + (template.content.length > 100 ? '...' : ''),
                                 cls: 'template-preview'
                             });
 
                             li.addEventListener('click', () => {
-                                input.value = template.content;
-                                templateListContainer.style.display = 'none';
-                                searchInput.value = '';
-                                input.focus();
+                                selectTemplate(template);
                             });
                         });
                     } else {
@@ -264,16 +265,55 @@ class PromptModal extends obsidian.Modal {
                     }
                 } else {
                     templateListContainer.style.display = 'none';
+                    matchedTemplates = [];
                 }
             });
 
-            // 点击外部关闭模板列表
-            document.addEventListener('click', (e) => {
-                if (!templateListContainer.contains(e.target) && 
-                    !searchInput.contains(e.target)) {
-                    templateListContainer.style.display = 'none';
+            // 添加键盘事件监听
+            searchInput.addEventListener('keydown', (e) => {
+                if (!matchedTemplates.length) return;
+
+                switch (e.key) {
+                    case 'ArrowDown':
+                        e.preventDefault();
+                        selectedIndex = (selectedIndex + 1) % matchedTemplates.length;
+                        updateSelection();
+                        break;
+                    case 'ArrowUp':
+                        e.preventDefault();
+                        selectedIndex = selectedIndex <= 0 ? matchedTemplates.length - 1 : selectedIndex - 1;
+                        updateSelection();
+                        break;
+                    case 'Enter':
+                        e.preventDefault();
+                        if (selectedIndex >= 0) {
+                            selectTemplate(matchedTemplates[selectedIndex]);
+                        }
+                        break;
                 }
             });
+
+            // 更新选中项的显示
+            function updateSelection() {
+                const items = templateList.querySelectorAll('.template-list-item');
+                items.forEach((item, index) => {
+                    if (index === selectedIndex) {
+                        item.addClass('selected');
+                        // 确保选中项可见
+                        item.scrollIntoView({ block: 'nearest' });
+                    } else {
+                        item.removeClass('selected');
+                    }
+                });
+            }
+
+            // 选择模板的函数
+            function selectTemplate(template) {
+                input.value = template.content;
+                templateListContainer.style.display = 'none';
+                searchInput.value = '';
+                input.focus();
+            }
 
             templateContainer.style.marginBottom = '1em';
         }
